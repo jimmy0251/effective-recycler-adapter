@@ -128,7 +128,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Provides selected items count
      *
-     * @return
+     * @return selected items count
      */
     public int getSelectedCount() {
         return selectedItems.size();
@@ -137,7 +137,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Provides selected item's positions
      *
-     * @return
+     * @return SparseBooleanArray containing selected positions
      */
     public SparseBooleanArray getSelectedPositions() {
         return selectedItems.clone();
@@ -146,8 +146,8 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Checks whether given position is selected
      *
-     * @param position
-     * @return
+     * @param position position of item
+     * @return whether position is selected
      */
     public boolean isSelected(int position) {
         return selectedItems.get(position);
@@ -156,7 +156,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Checks whether ActionMode is active
      *
-     * @return
+     * @return whether ActionMode is acive
      */
     public boolean isActionModeActive() {
         return actionMode != null;
@@ -164,7 +164,6 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
 
     /**
      * Selects all positions of adapter
-     * <p/>
      * <p/>
      * It will invoke onSelectionChanged callback only on the positions which are not selected
      */
@@ -188,7 +187,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Provides current Adapter State
      *
-     * @return
+     * @return Current adapter state
      */
     public AdapterState onSaveInstanceState() {
         AdapterState state = new AdapterState();
@@ -210,7 +209,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Sets given Adapter state as the current adapter state
      *
-     * @param adapterState
+     * @param adapterState Adapter state of EffectiveRecyclerView
      */
     public void onRestoreInstanceState(AdapterState adapterState) {
         SparseBooleanArray selectedItems = adapterState.mSelectedPositions;
