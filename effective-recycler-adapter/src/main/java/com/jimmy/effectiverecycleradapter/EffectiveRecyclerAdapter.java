@@ -104,8 +104,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
 
     /**
      * Starts ActionMode, Should not be invoked directly
-     * <p/>
-     * <p/>
+     *
      * Instead use setSelected and toggleSelected method which will start ActionMode when
      * appropriate
      */
@@ -115,8 +114,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
 
     /**
      * Finishes Action Mode
-     * <p/>
-     * <p/>
+     *
      * Clears selected items and notifyDataSetChanged will be invoked
      */
     public void finishActionMode() {
@@ -164,7 +162,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
 
     /**
      * Selects all positions of adapter
-     * <p/>
+     *
      * It will invoke onSelectionChanged callback only on the positions which are not selected
      */
     public void selectAll() {
