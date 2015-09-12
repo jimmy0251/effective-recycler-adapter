@@ -8,7 +8,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 /**
@@ -16,8 +15,6 @@ import android.view.MenuItem;
  */
 public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
-
-    private static final String TAG = "EffectiveRecycler";
 
     private static final String KEY_STATE_ADAPTER = "state_adapter";
 
@@ -55,6 +52,12 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
         }
     };
 
+    /**
+     * Sets MultiChoiceModeListener for this Activity.
+     *
+     * @param activity                AppCompatActivity
+     * @param multiChoiceModeListener callback for MultiChoice actions
+     */
     public void setMultiChoiceModeListener(AppCompatActivity activity,
                                            MultiChoiceModeListener multiChoiceModeListener) {
         if (activity != null && multiChoiceModeListener != null) {
@@ -63,10 +66,21 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
         }
     }
 
+    /**
+     * Toggles selected state
+     *
+     * @param position position of the item
+     */
     public void toggleSelected(int position) {
         setSelected(position, !isSelected(position));
     }
 
+    /**
+     * Sets item's selected state
+     *
+     * @param position position of the item
+     * @param selected whether item is selected or not
+     */
     public void setSelected(int position, boolean selected) {
         if (activity == null) return;
 
@@ -83,38 +97,78 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
         choiceListener.onItemSelectionChanged(actionMode, position, selected);
 
         if (selectedItems.size() == 0) {
-            finishActionModeIfActive();
+            finishActionMode();
         }
         notifyItemChanged(position);
     }
 
+    /**
+     * Starts ActionMode, Should not be invoked directly
+     * <p/>
+     * <p/>
+     * Instead use setSelected and toggleSelected method which will start ActionMode when
+     * appropriate
+     */
     public void startActionMode() {
         activity.startSupportActionMode(callback);
     }
 
-    public void finishActionModeIfActive() {
+    /**
+     * Finishes Action Mode
+     * <p/>
+     * <p/>
+     * Clears selected items and notifyDataSetChanged will be invoked
+     */
+    public void finishActionMode() {
         if (actionMode != null) {
             actionMode.finish();
         }
     }
 
+    /**
+     * Provides selected items count
+     *
+     * @return
+     */
     public int getSelectedCount() {
         return selectedItems.size();
     }
 
+    /**
+     * Provides selected item's positions
+     *
+     * @return
+     */
     public SparseBooleanArray getSelectedPositions() {
         return selectedItems.clone();
     }
 
+    /**
+     * Checks whether given position is selected
+     *
+     * @param position
+     * @return
+     */
     public boolean isSelected(int position) {
         return selectedItems.get(position);
     }
 
+    /**
+     * Checks whether ActionMode is active
+     *
+     * @return
+     */
     public boolean isActionModeActive() {
         return actionMode != null;
     }
 
-    public void setSelectedAll() {
+    /**
+     * Selects all positions of adapter
+     * <p/>
+     * <p/>
+     * It will invoke onSelectionChanged callback only on the positions which are not selected
+     */
+    public void selectAll() {
         for (int i = 0, count = getItemCount(); i < count; i++) {
             if (!isSelected(i)) {
                 setSelected(i, true);
@@ -122,64 +176,50 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
         }
     }
 
+    /**
+     * Saves Adapter state in given bundle, later it can be restored with restoreInstanceState
+     *
+     * @param outState Bundle in which Adapter state will be saved
+     */
     public void saveInstanceState(Bundle outState) {
         outState.putParcelable(KEY_STATE_ADAPTER, onSaveInstanceState());
     }
 
-    public Parcelable onSaveInstanceState() {
+    /**
+     * Provides current Adapter State
+     *
+     * @return
+     */
+    public AdapterState onSaveInstanceState() {
         AdapterState state = new AdapterState();
         state.mSelectedPositions = selectedItems;
         return state;
     }
 
+    /**
+     * Restores Adapter state from given Bundle if it was previously saved with saveInstanceState
+     *
+     * @param savedInstanceState Bundle from which Adapter state will be restored
+     */
     public void restoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            onRestoreInstanceState(savedInstanceState.getParcelable(KEY_STATE_ADAPTER));
+            onRestoreInstanceState((AdapterState) savedInstanceState.getParcelable(KEY_STATE_ADAPTER));
         }
     }
 
-    public void onRestoreInstanceState(Parcelable parcelable) {
-        if (parcelable instanceof AdapterState) {
-            SparseBooleanArray selectedItems = ((AdapterState) parcelable).mSelectedPositions;
-            for (int i = 0; i < selectedItems.size(); i++) {
-                setSelected(selectedItems.keyAt(i), true);
-            }
+    /**
+     * Sets given Adapter state as the current adapter state
+     *
+     * @param adapterState
+     */
+    public void onRestoreInstanceState(AdapterState adapterState) {
+        SparseBooleanArray selectedItems = adapterState.mSelectedPositions;
+        for (int i = 0; i < selectedItems.size(); i++) {
+            setSelected(selectedItems.keyAt(i), true);
         }
     }
 
-    public interface MultiChoiceModeListener {
-        MultiChoiceModeListener EMPTY_LISTENER = new MultiChoiceModeListener() {
-            @Override
-            public void onItemSelectionChanged(ActionMode mode, int position, boolean selected) {
-
-            }
-
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, MenuInflater inflater, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode() {
-
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                return false;
-            }
-        };
-
-        void onItemSelectionChanged(ActionMode mode, int position, boolean selected);
-
-        boolean onCreateActionMode(ActionMode mode, MenuInflater inflater, Menu menu);
-
-        void onDestroyActionMode();
-
-        boolean onActionItemClicked(ActionMode mode, MenuItem item);
-    }
-
-    static class AdapterState implements Parcelable {
+    public static class AdapterState implements Parcelable {
         private SparseBooleanArray mSelectedPositions;
 
         private AdapterState() {
