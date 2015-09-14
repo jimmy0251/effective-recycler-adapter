@@ -23,7 +23,7 @@ Upcoming
 How do I get it?
 ----------------
 
-#Maven
+###Maven
 ```xml
 <dependency>
   <groupId>com.jimmy.effective-recycler-adapter</groupId>
@@ -32,7 +32,7 @@ How do I get it?
 </dependency>
 ```
 
-#Gradle
+###Gradle
 ```groovy
 compile 'com.jimmy.effective-recycler-adapter:effective-recycler-adapter:1.0.0'
 ```
