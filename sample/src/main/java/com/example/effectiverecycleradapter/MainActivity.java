@@ -2,7 +2,6 @@ package com.example.effectiverecycleradapter;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -54,11 +53,6 @@ public class MainActivity extends AppCompatActivity implements MultiChoiceModeLi
 
         // Call if you want to save selected items on Activity recreate
         mMyAdapter.saveInstanceState(outState);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
