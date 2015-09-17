@@ -154,7 +154,7 @@ public abstract class EffectiveRecyclerAdapter<VH extends RecyclerView.ViewHolde
     /**
      * Checks whether ActionMode is active
      *
-     * @return whether ActionMode is acive
+     * @return whether ActionMode is active
      */
     public boolean isActionModeActive() {
         return actionMode != null;
