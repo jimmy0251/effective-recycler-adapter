@@ -28,13 +28,13 @@ How do I get it?
 <dependency>
   <groupId>com.jimmy.effective-recycler-adapter</groupId>
   <artifactId>effective-recycler-adapter</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
 ###Gradle
 ```groovy
-compile 'com.jimmy.effective-recycler-adapter:effective-recycler-adapter:1.0.0'
+compile 'com.jimmy.effective-recycler-adapter:effective-recycler-adapter:1.0.1'
 ```
 
 License
