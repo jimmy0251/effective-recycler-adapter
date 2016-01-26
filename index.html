@@ -1,48 +1,101 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Effective-recycler-adapter by jimmy0251</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Effective-recycler-adapter</h1>
-        <p>An Advanced RecyclerView Adapter</p>
+    <section class="page-header">
+      <h1 class="project-name">Effective-recycler-adapter</h1>
+      <h2 class="project-tagline">An Advanced RecyclerView Adapter</h2>
+      <a href="https://github.com/jimmy0251/effective-recycler-adapter" class="btn">View on GitHub</a>
+      <a href="https://github.com/jimmy0251/effective-recycler-adapter/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/jimmy0251/effective-recycler-adapter/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/jimmy0251/effective-recycler-adapter">View the Project on GitHub <small>jimmy0251/effective-recycler-adapter</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/jimmy0251/effective-recycler-adapter/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/jimmy0251/effective-recycler-adapter/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/jimmy0251/effective-recycler-adapter">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h2>
-<a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is it?</h2>
+    <section class="main-content">
+      <h2>
+<a id="what-is-it" class="anchor" href="#what-is-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>What is it?</h2>
 
 <p>Small and lightweight extensions to <code>RecycerView.Adpter</code> which adds missing <code>ListView</code> and <code>GridView</code>
 features to <code>RecyclerView</code></p>
 
 <h2>
-<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<ul>
-<li>MultiChoiceMode support</li>
-</ul>
+<p>You need to extend <code>EffectiveRecyclerAdapter</code> in order to get the benefits of this library.</p>
+
+<h3>
+<a id="multichoicemode" class="anchor" href="#multichoicemode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MultiChoiceMode</h3>
+
+<p>MultiChoiceMode is customizable and very easy to use. You just need to set the <code>MultiChoiceModeListener</code> with <code>setMultiChoiceModeListener</code> method. MultiChoiceModeListener has few important callbacks like</p>
+
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onItemSelectionChanged(<span class="pl-smi">ActionMode</span> mode, <span class="pl-k">int</span> position, <span class="pl-k">boolean</span> selected) {
+    <span class="pl-c">// Called when selection is changed at position index.</span>
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">boolean</span> onCreateActionMode(<span class="pl-smi">ActionMode</span> mode, <span class="pl-smi">MenuInflater</span> inflater, <span class="pl-smi">Menu</span> menu) {
+    <span class="pl-c">// On Create Action Mode, Inflate the menu.</span>
+    inflater<span class="pl-k">.</span>inflate(<span class="pl-smi">R</span><span class="pl-k">.</span>menu<span class="pl-k">.</span>menu_action, menu);
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onDestroyActionMode() {
+    <span class="pl-c">// Action mode destroyed.</span>
+}
+
+@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">boolean</span> onActionItemClicked(<span class="pl-smi">ActionMode</span> mode, <span class="pl-smi">MenuItem</span> item) {
+    <span class="pl-c">// Action menu item is clicked</span>
+    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+}</pre></div>
+
+<p>You decide when you need your Item's selection state to be changed. For example, here's a <code>ViewHolder</code> implementation which toggles selection states on <code>onClick</code> and <code>onLongClick</code> events.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">class</span> <span class="pl-en">MyViewHolder</span> <span class="pl-k">extends</span> <span class="pl-e">RecyclerView</span>.<span class="pl-e">ViewHolder</span> <span class="pl-k">implements</span> <span class="pl-e">View</span>.<span class="pl-e">OnClickListener</span>, <span class="pl-e">View</span>.<span class="pl-e">OnLongClickListener</span> {
+
+    <span class="pl-k">public</span> <span class="pl-en">MyViewHolder</span>(<span class="pl-smi">TextView</span> <span class="pl-v">itemView</span>) {
+       <span class="pl-v">super</span>(itemView);
+       itemView<span class="pl-k">.</span>setOnClickListener(<span class="pl-v">this</span>);
+       itemView<span class="pl-k">.</span>setOnLongClickListener(<span class="pl-v">this</span>);
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">onClick</span>(<span class="pl-smi">View</span> <span class="pl-v">v</span>) {
+        <span class="pl-c">// You decide when Selected state should be change</span>
+        <span class="pl-k">if</span> (mMyAdapter<span class="pl-k">.</span>isActionModeActive()) {
+            mMyAdapter<span class="pl-k">.</span>toggleSelected(getAdapterPosition());
+        } <span class="pl-k">else</span> {
+            <span class="pl-c">// Do normal onclick action</span>
+        } 
+    }
+
+    <span class="pl-k">@Override</span>
+    <span class="pl-k">public</span> <span class="pl-k">boolean</span> <span class="pl-en">onLongClick</span>(<span class="pl-smi">View</span> <span class="pl-v">v</span>) {
+        <span class="pl-c">// You decide when Selected state should be change</span>
+        mMyAdapter<span class="pl-k">.</span>toggleSelected(getAdapterPosition());
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    }
+}</pre></div>
+
+<p>You can check if item is selected in your <code>Adapter</code>'s <code>onBindViewHolder</code> method and change view according to it.</p>
+
+<div class="highlight highlight-source-java"><pre>@<span class="pl-smi">Override</span>
+<span class="pl-k">public</span> <span class="pl-k">void</span> onBindViewHolder(<span class="pl-smi">MyViewHolder</span> holder, <span class="pl-k">int</span> position) {
+    <span class="pl-c">// Check if item is selected and set the appropriate view</span>
+    holder<span class="pl-k">.</span>item<span class="pl-k">.</span>setBackgroundColor(isSelected(position) <span class="pl-k">?</span> <span class="pl-smi">Color</span><span class="pl-c1"><span class="pl-k">.</span>GRAY</span> <span class="pl-k">:</span> <span class="pl-smi">Color</span><span class="pl-c1"><span class="pl-k">.</span>WHITE</span>);
+}</pre></div>
 
 <h2>
-<a id="upcoming" class="anchor" href="#upcoming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upcoming</h2>
+<a id="upcoming" class="anchor" href="#upcoming" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Upcoming</h2>
 
 <ul>
 <li>Header and Footer View support</li>
@@ -52,10 +105,10 @@ features to <code>RecyclerView</code></p>
 </ul>
 
 <h2>
-<a id="how-do-i-get-it" class="anchor" href="#how-do-i-get-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>How do I get it?</h2>
+<a id="how-do-i-get-it" class="anchor" href="#how-do-i-get-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How do I get it?</h2>
 
 <h3>
-<a id="maven" class="anchor" href="#maven" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maven</h3>
+<a id="maven" class="anchor" href="#maven" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Maven</h3>
 
 <div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">dependency</span>&gt;
   &lt;<span class="pl-ent">groupId</span>&gt;com.jimmy.effective-recycler-adapter&lt;/<span class="pl-ent">groupId</span>&gt;
@@ -64,16 +117,18 @@ features to <code>RecyclerView</code></p>
 &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <h3>
-<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradle</h3>
+<a id="gradle" class="anchor" href="#gradle" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gradle</h3>
 
 <div class="highlight highlight-source-groovy"><pre>compile <span class="pl-s"><span class="pl-pds">'</span>com.jimmy.effective-recycler-adapter:effective-recycler-adapter:1.0.1<span class="pl-pds">'</span></span></pre></div>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/jimmy0251">jimmy0251</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/jimmy0251/effective-recycler-adapter">Effective-recycler-adapter</a> is maintained by <a href="https://github.com/jimmy0251">jimmy0251</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+    </section>
+
+  
   </body>
 </html>
