@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/jimmy0251/maven/effective-recycler-adapter/images/download.svg) ](https://bintray.com/jimmy0251/maven/effective-recycler-adapter/_latestVersion)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-effective--recycler--adapter-green.svg?style=true)](https://android-arsenal.com/details/1/3064)
+
 # effective-recycler-adapter
 
 An advanced RecyclerView Adapter
