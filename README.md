@@ -6,7 +6,7 @@ An advanced RecyclerView Adapter
 
 What is it?
 -----------
-Small and lightweight extensions to `RecycerView.Adpter` which adds missing `ListView` and `GridView`
+Small and lightweight extensions to `RecyclerView.Adapter` which adds missing `ListView` and `GridView`
 features to `RecyclerView`.
 
 Please see sample application and [the website](http://jimmy0251.github.io/effective-recycler-adapter) for more information.
