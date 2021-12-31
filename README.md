@@ -1,6 +1,15 @@
-[ ![Download](https://api.bintray.com/packages/jimmy0251/maven/effective-recycler-adapter/images/download.svg) ](https://bintray.com/jimmy0251/maven/effective-recycler-adapter/_latestVersion)[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-effective--recycler--adapter-green.svg?style=true)](https://android-arsenal.com/details/1/3064)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-effective--recycler--adapter-green.svg?style=true)](https://android-arsenal.com/details/1/3064)
 
 # effective-recycler-adapter
+
+-----------
+
+[DEPRECATED]
+
+This project is no longer maintained as most of the features provided by this library is now part of the standard RecyclerView.
+
+-----------
+
 
 An advanced RecyclerView Adapter
 
@@ -40,6 +49,13 @@ How do I get it?
 ```groovy
 compile 'com.jimmy.effective-recycler-adapter:effective-recycler-adapter:1.0.1'
 ```
+
+
+Credits
+=======
+
+[Canopas Software LLP](https://canopas.com)
+
 
 License
 =======
